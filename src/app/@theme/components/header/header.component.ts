@@ -19,35 +19,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userPictureOnly: boolean = false;
   user: any;
 
-  themes = [
-    {
-      value: 'default',
-      name: 'Light',
-    },
-    {
-      value: 'dark',
-      name: 'Dark',
-    },
-    {
-      value: 'cosmic',
-      name: 'Cosmic',
-    },
-    {
-      value: 'corporate',
-      name: 'Corporate',
-    },
-    {
-      value: 'material-light',
-      name: 'Material Light',
-    },
-    {
-      value: 'material-dark',
-      name: 'Material Dark',
-    },
-  ];
-
-  currentTheme = 'default';
-
   userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
 
   public constructor(
@@ -67,7 +38,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.currentTheme = this.themeService.currentTheme;
 
     this.userService.getUsers()
       .pipe(takeUntil(this.destroy$))
@@ -80,25 +50,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
-
-    this.themeService.onThemeChange()
-      .pipe(
-        map(({ name }) => name),
-        takeUntil(this.destroy$),
-      )
-      .subscribe(themeName => {
-        this.currentTheme = themeName;
-        this.rippleService.toggle(themeName?.startsWith('material'));
-      });
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  changeTheme(themeName: string) {
-    this.themeService.changeTheme(themeName);
   }
 
   toggleSidebar(): boolean {
