@@ -5,7 +5,6 @@ import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
-import { RippleService } from '../../../@core/utils/ripple.service';
 
 @Component({
   selector: 'ngx-header',
@@ -28,7 +27,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private userService: UserData,
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
-    private rippleService: RippleService,
   ) {
     this.materialTheme$ = this.themeService.onThemeChange()
       .pipe(map(theme => {
